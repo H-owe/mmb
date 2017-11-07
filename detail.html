@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet/less" href="./less/detail.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+<body>
+    <div id="topbar">
+        <div class="logo pull-left">
+            <a href="#">
+                <img src="./images/header_logo.png" alt="">
+            </a>
+        </div>
+        <div class="download pull-right">
+            <a href="#">
+                <img src="./images/header_app.png" alt="">
+            </a>
+        </div>
+    </div>
+    <div id="search">
+        <form action="">
+            <input type="text" name="" id="" placeholder="请输入你想比价的商品">
+            <input type="submit" value="搜索" class="pull-right">
+        </form>
+    </div>
+    <div class="title">
+        <a href="#">首页</a>>
+        <a href="#">平板电视</a>>
+        <a href="#">小米</a>
+    </div>
+    <div class="info clearfix">
+        <div class="pic">
+            <img src="./images/haitao.png" alt="">
+            <a href="#">
+                <img src="./images/haitao.png" alt="">
+            </a>
+        </div>
+        <h4>adsdasd</h4>
+        <p>
+            <span>ssss</span>
+            <em>wwww</em>
+            
+        </p>
+        <p>
+            <span>qqqq</span>
+            <em>aaa</em>
+        </p>
+    </div>
+    <div class="tab clearfix">
+        <ul>
+            <li><a href="#">比价购买</a></li>
+            <li><a href="#">产品参数</a></li>
+            <li><a href="#">优选评价</a></li>
+        </ul>
+    </div>
+    <div class="list clearfix">
+        <ul>
+       
+        </ul>
+        <div class="" style="margin-left:10px; font-size:14px">
+            <a href="#">该商品的历史最低价：4589.00   ></a>
+        </div>
+        <div class="note">
+                * 实际价格以各网站列出的实时售价为准，我们提供的价格可能有数小时至数日的延迟。
+        </div>
+    </div>
+    <div class="comment">
+        <p>网友评价</p>
+    </div>
+    <div class="commentList">
+        <ul>
+            <li>
+                <p>j***a<span>2017</span></p>
+                <span><em></em></span><span class="right">购买自：京东商城</span>
+                <div class="content">好看啊，重，薄，效果很好，好喜欢，就是广告太长了，可惜没有会员卡，有卡就舒服多了，片子还是很多啊</div>
+                <p>回复</p>
+            </li>
+            <li>
+                <p>j***a
+                    <span>2017</span>
+                </p>
+                <span>
+                    <em></em>
+                </span>
+                <span class="right">购买自：京东商城</span>
+                <div class="content">好看啊，重，薄，效果很好，好喜欢，就是广告太长了，可惜没有会员卡，有卡就舒服多了，片子还是很多啊</div>
+                <p>回复</p>
+            </li>
+        </ul>
+    </div>
+    <div class="more">
+        <a href="#">查看更多评价</a>
+    </div>
+    <div id="title2">
+        <img src="http://m.manmanbuy.com/download/images/logo.png" alt="">
+        <div>
+            慢慢买APP
+            <p>给喜欢网购的同学推荐下[慢慢买]这个APP，第一时间更新国内外的优惠信息！</p>
+        </div>
+        <a href="#">立即打开</a>
+    </div>
+    <div class="footTop clearfix">
+        <a href="#">登录</a><a href="#">注册</a><a href="#">返回顶部</a>
+    </div>
+    <div class="footer">
+        <p>
+            <a href="#">手机APP下载</a>
+            <a href="#">慢慢买手机版</a>
+            --掌上比价平台
+        </p>
+        <p>m.manmanbuy.com</p>
+    </div>
+    <script src="./lib/template/template.js"></script>
+    <script type="text/html" id="list">
+        {{each result as value i}}
+        
+            {{#value.bjShop}}
+        
+        {{/each}}
+    </script>
+</body>
+</html>
+<script src="./lib/jquery/jquery.js"></script>
+<script>
+    $(function(){
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        // alert(getQueryString('productid'));
+        $.ajax({
+            url:'http://157.122.54.189:9090/api/getproduct',
+            data:{
+                productid:getQueryString('productid')
+                // pageid:page_id
+            },
+            success:function(data){
+                console.log(data);
+                var html = template('list',data);
+                console.log(html);
+                $('.list ul').html(html);
+                $('.info .pic >img').html((data.result)[0].productImg);
+            }
+        })
+    })
+</script>

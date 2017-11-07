@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet/less" href="./less/moneyctrl.less">
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+    <script src="./lib/less/less.js"></script>
+    
+</head>
+<body>
+    <div id="topbar">
+        <div class="prev">
+            <a href="#">
+                <i class="glyphicon glyphicon-menu-left"></i>
+            </a>
+        </div>
+        <h4>省钱控 - 最新优惠</h4>
+        <div class="download">
+            <a href="#">
+                <img src="./images/header_app.png" alt="">
+            </a>
+        </div>
+    </div>
+    <div class="main">
+        <div id="container">
+            <div class="box">
+
+            </div>
+            <!-- <div class="media">
+                <a href="#">
+                    <div class="media-left">
+                        <img class="media-object" src="http://img2017.manmanbuy.com/2017110011143742645.jpg" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Media heading</h4>
+                        <div class="other">
+                            <span>天貓商城|xxx</span>
+                            <span class="right">
+                                <i class=""></i>xsxx</span>
+                        </div>
+                    </div>
+                </a>
+            </div> -->  
+            <div class="page">
+                <div class="col">
+                    <a href="#">上一页</a>
+                </div>
+                <div class="col">
+                    <select>
+                        <option value="1">1/10</option>
+                        <option value="1">1/10</option>
+                        <option value="1">1/10</option>
+                        <option value="1">1/10</option>
+                        <option value="1">1/10</option>
+                        <option value="1">1/10</option>
+                        <option value="1">1/10</option>
+                        <option value="1">1/10</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <a href="#">下一页</a>
+                </div>
+            </div>         
+        </div>
+        
+    </div>
+    <div class="nav">
+        <a href="#">首页</a>
+        >省钱控
+    </div>
+    <div class="footTop">
+        <a href="#">登录</a><a href="#">注册</a><a href="#">返回顶部</a>
+    </div>
+    <div class="footer">
+        <p>
+            <a href="#">手机APP下载</a>
+            <a href="#">慢慢买手机版</a>
+            --掌上比价平台
+        </p>
+        <p>m.manmanbuy.com</p>
+    </div>
+    <script src="./lib/template/template.js"></script>
+    <script type="text/html" id="productsList">
+    {{each result as value i}}
+        <div class="media">
+            <a href="#">
+            <div class="media-left">
+                
+                    {{#value.productImgLg}}
+               
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{value.productName}}<span>{{value.productPinkage}}</span></h4>
+                <div class="other">
+                    <span>{{value.productFrom}}|{{value.productTime}}</span>
+                    <span class="right"><i class=""></i>{{value.productComCount.replace('有','').replace('人评论','')}}</span>
+                </div>
+            </div>
+            </a>
+        </div>
+    {{/each}}
+    </script>
+</body>
+</html>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script>
+    $(function(){
+        products();
+        function products(){
+            $.ajax({
+                url:'http://157.122.54.189:9090/api/getmoneyctrl',
+                success:function(data){
+                    console.log(data);
+                    var html = template('productsList',data);
+                    $('#container .box').html(html);
+                }
+            })
+        }
+    })
+</script>

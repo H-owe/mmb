@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet/less" href="./less/category.less">
+    <!-- <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css"> -->
+    <script src="./lib/less/less.js"></script>
+</head>
+<body>
+    <div id="topbar">
+        <div class="logo pull-left">
+            <a href="#">
+                <img src="./images/header_logo.png" alt="">
+            </a>
+        </div>
+        <div class="download pull-right">
+            <a href="#">
+                <img src="./images/header_app.png" alt="">
+            </a>
+        </div>
+    </div>
+    <div id="search">
+        <form action="">
+            <input type="text" name="" id="" placeholder="请输入你想比价的商品">
+            <input type="submit" value="搜索" class="pull-right">
+        </form>
+    </div>
+    <div class="List">
+        <ul>
+            <!-- <!-- <li>
+                <a href="#">大</a>
+              
+            </li>
+            <div class="row clearfix">
+                <a href="#" class="col-xs-4">aa</a>
+                <a href="#" class="col-xs-4">aa</a>
+                <a href="#" class="col-xs-4">aa</a>
+                <a href="#" class="col-xs-4">aa</a>
+            </div> -->
+            <!-- <li>
+                <a href="#">大</a>
+                <ul>
+                        <div class="row">
+                                <a href="#" class="col-xs-4">aa</a>
+                                <a href="#" class="col-xs-4">aa</a>
+                                <a href="#" class="col-xs-4">aa</a>
+                            </div>
+                </ul>
+                
+            </li>  -->
+           
+        </ul>
+    </div>
+    <div class="footTop">
+        <a href="#">登录</a><a href="#">注册</a><a href="#">返回顶部</a>
+    </div>
+    <div class="footer">
+        <p>
+            <a href="#">手机APP下载</a>
+            <a href="#">慢慢买手机版</a>
+            --掌上比价平台
+        </p>
+        <p>m.manmanbuy.com</p>
+    </div>
+    <script src="./lib/template/template.js"></script>
+    <script type="text/html" id="List">
+        {{each result as value i}}
+             <li>
+                <a href="#" id={{value.titleId}}>{{value.title}}</a>
+                <ul class="clearfix"></ul>
+                <!-- <div class="row clearfix">
+                    <a href="#" class="col-xs-4">aa</a>
+                
+                </div> -->
+            </li>
+        {{/each}}
+    </script>
+    <script type="text/html" id="categorylist">
+        {{each result as value i}}
+            <div class="row  col-xs-4">
+                <a href="products.html?categoryid={{value.categoryId}}" >{{value.category}}</a>
+            </div>
+        {{/each}}
+    </script>
+</body>
+</html>
+<script src="./lib/jquery/jquery.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script>
+    $(function(){
+        List();
+        function List() {
+            $.ajax({
+                url:'http://157.122.54.189:9090/api/getcategorytitle',
+                success:function(data){
+                    // console.log(data);
+                    var html = template('List',data);
+                    // console.log(html);
+                    $('.List ul').html(html);
+                    $('.List li a').on('click',function(){
+                        var _this = this
+                        var id = $(this).attr('id');
+                        console.log(id);
+                        $.ajax({
+                            url:"http://157.122.54.189:9090/api/getcategory",
+                            data:{titleid:id},
+                            success:function(data){
+                                console.log(data)
+                                var category = template('categorylist',data);
+                                console.log(category);
+                               $(_this).siblings('ul').html(category);
+                            }
+                        })
+                    })
+                }
+            })
+        }
+        var flag =true;
+        $('.List').on('click','a',function(){
+            if(flag==true){
+                $(this).siblings('ul').show();
+                flag =false;
+            }else {
+                $(this).siblings('ul').hide();
+                flag = true;
+            }
+            
+            
+        });
+       
+    })
+</script>

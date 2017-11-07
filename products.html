@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet/less" href="./less/products.less">
+    <script src="./lib/less/less.js"></script>
+</head>
+<body>
+    <div id="topbar">
+        <div class="logo pull-left">
+            <a href="#">
+                <img src="./images/header_logo.png" alt="">
+            </a>
+        </div>
+        <div class="download pull-right">
+            <a href="#">
+                <img src="./images/header_app.png" alt="">
+            </a>
+        </div>
+    </div>
+    <div id="search">
+        <form action="">
+            <input type="text" name="" id="" placeholder="请输入你想比价的商品">
+            <input type="submit" value="搜索" class="pull-right">
+        </form>
+    </div>
+    <div class="row">
+        <ul>
+            <li><a href="#">综合</a></li>
+            <li><a href="#">销量</a></li>
+            <li><a href="#">价格</a></li>
+            <li><a href="#"><i></i>筛选</a></li>
+        </ul>
+    </div>
+    <div class="products">
+        <ul>
+            <!-- <li><a href="#">
+                <div class="left">
+                    <img src="http://www.zuyushop.com:8013/ProPic/20175/small80/Thumb_2017050008183111417.jpg" alt="">
+                </div>
+                <div class="right">
+                    <h4>sads收到ds</h4>
+                    <p>www</p>
+                    <p><span>ssss</span><span>xxx</span></p>
+                </div>
+            </a></li> -->
+        </ul>
+        
+    </div>
+    <div class="page">
+        <div class="col">
+            <a href="#">上一页</a>
+        </div>
+        <div class="col">
+            <select>
+                <option value="1">1/10</option>
+                <option value="1">1/10</option>
+                <option value="1">1/10</option>
+                <option value="1">1/10</option>
+                <option value="1">1/10</option>
+
+                <option value="1">1/10</option>
+                <option value="1">1/10</option>
+                <option value="1">1/10</option>
+            </select>
+        </div>
+        <div class="col">
+            <a href="#">下一页</a>
+        </div>
+    </div>
+    <div class="link">
+        <h4>相关链接</h4>
+        <a href="#">电视机十大品牌</a>
+        <a href="#">电视机口碑大全</a>
+    </div>
+    <div class="footTop">
+        <a href="#">登录</a><a href="#">注册</a><a href="#">返回顶部</a>
+    </div>
+    <div class="footer">
+        <p>
+            <a href="#">手机APP下载</a>
+            <a href="#">慢慢买手机版</a>
+            --掌上比价平台
+        </p>
+        <p>m.manmanbuy.com</p>
+    </div>
+    
+    <script src="./lib/template/template.js"></script>
+    <script type="text/html" id="List">
+        {{each result as value i}}
+            <li><a href="detail.html?productid={{value.productId}}">
+                <div class="left">
+                    {{#value.productImg}}
+                </div>
+                <div class="right">
+                    <h4>{{value.productName}}</h4>
+                    <p>{{value.productPrice}}</p>
+                    <p><span>{{value.productQuote}}</span><span>{{value.productCom}}</span></p>
+                </div>
+            </a></li>
+        {{/each}}
+    </script>
+</body>
+</html>
+<script src="./lib/jquery/jquery.js"></script>
+<script>
+    $(function(){
+        
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        // alert(getQueryString('categoryid'));
+        // function GetRequest() {
+        //     var url = location.search; //获取url中"?"符后的字串
+        //     var theRequest = new Object();
+        //     if (url.indexOf("?") != -1) {
+        //         var str = url.substr(1);
+        //         strs = str.split("&");
+        //         for (var i = 0; i < strs.length; i++) {
+        //             theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        //         }
+        //     }
+        //     return theRequest;
+        // }
+        // console.log(GetRequest());
+        $.ajax({
+            url:'http://157.122.54.189:9090/api/getproductlist',
+            data:{
+                categoryid:getQueryString('categoryid')
+                // pageid:page_id
+            },
+            success:function(data){
+                console.log(data);
+                var html = template('List',data);
+                $('.products ul').html(html);
+            }
+        })
+    })
+</script>
